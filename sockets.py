@@ -2,16 +2,10 @@
 
 import socket
 import re
-class MessageReader(object):
-	def __init__(self, socket):
-		self.buffer = b''
-
-	def get_bytes(self, new):
-		"""while new not in self.buffer:
-			if not self._fill():
-				return b''"""
-
-
+class Router(object):
+	def __init__(self):
+		self.route = ""
+		
 
 class Server(object):
 	def __init__(self):
@@ -27,7 +21,26 @@ class Server(object):
 			listed_data[i] = listed_data[i].rstrip()
 			splits = listed_data[i].split(": ")
 			headers[splits[0]] = splits[1]
-		return method, headers
+
+		method_list = method.split(" ")
+		request_dict = {
+			"headers": headers
+		}
+		if len(method_list) == 3:
+			request_dict["method"] = method_list[0]
+			if re.search("\?", method_list[1]):
+				request_dict["route"] = method_list[1].split("?").pop(0)
+				request_dict["get_vars"] = {}
+				for val in method_list[1].split("?")[1].split("&"):
+					request_dict["get_vars"][val.split("=")[0]] = val.split("=")[1]
+
+			else:
+				request_dict["route"] = method_list[1]
+			request_dict["type"] = method_list[2]
+		else:
+			request_dict["method"] = method_list
+
+		return request_dict
 
 	def serve_requests(self):
 		while True:
@@ -41,7 +54,10 @@ class Server(object):
 				if re.search('\r\n\r\n$', rec_data):
 					break
 			processed_data = self.process_headers(data)
-			c.send('hello')
+			output = processed_data["method"]
+			if type(output) is list:
+				output = output[0]
+			c.send(output)
 			c.close()
 
 s = Server()
