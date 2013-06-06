@@ -7,10 +7,12 @@ def simple_output(request):
 		"headers": {
 			"status": '200 OK',
 			"version": "HTTP/1.1",
-			"content-type": "text/plain",
+			"content-type": "text/html",
 		}
 	}
-	output["response"] = request.headers['User-Agent']
+	output["response"] = '<form action="/" method="POST"><input type=text /><input type=submit value=Submit /></form>'
 	return output
-s = Server()
-s.serve_requests(simple_output)
+
+if __name__ == "__main__":
+	s = Server()
+	s.serve_requests(simple_output)
