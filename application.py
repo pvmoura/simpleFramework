@@ -10,7 +10,7 @@ def simple_output(request):
 			"content-type": "text/html",
 		}
 	}
-	output["response"] = '<form action="/" method="POST"><input type=text /><input type=submit value=Submit /></form>'
+	output["response"] = '<html><head></head><form action="/" method="POST"><input type=text /><input type=submit value=Submit /></form></html>'
 	return output
 
 if __name__ == "__main__":
