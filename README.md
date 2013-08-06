@@ -1,4 +1,4 @@
-simpleFramework
+simpleServer
 ===============
 
-building a simple web framework in python
+A simple GET server implementation that interprets HTTP 

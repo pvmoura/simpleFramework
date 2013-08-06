@@ -3,12 +3,11 @@
 from server import Server
 
 def simple_output(request):
-	output = {
-		"headers": {
-			"status": '200 OK',
-			"version": "HTTP/1.1",
-			"content-type": "text/html",
-		}
+	output = {}
+	output['headers'] = {
+		"status": '200 OK',
+		"version": "HTTP/1.1",
+		"content-type": "text/html",
 	}
 	output["response"] = '<html><head></head><form action="/" method="POST"><input type=text /><input type=submit value=Submit /></form></html>'
 	return output
